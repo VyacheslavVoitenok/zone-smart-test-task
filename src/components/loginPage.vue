@@ -1,15 +1,15 @@
 <template lang='pug'>
 .loginPageWrapper
     ZoneSmartLogo
-    .loginPage
+    form.loginPage(@submit.prevent='submit')
         h1.loginPage__header Вход
-        input.loginPage__input(type='email', placeholder="E-mail или телефон")
+        input.loginPage__input(type='email', placeholder='E-mail или телефон' v-model='form.email')
         .loginPage__input
-            input.loginPage__input_password(:type='PasswordVisibility', placeholder="Пароль")
+            input.loginPage__input_password(:type='password_visibility', placeholder='Пароль' v-model='form.password')
             .loginPage__eye-pic-wrapper(@click='changePasswordVisibility')
-                PasswordEyeOpened(v-if="EyePicIsOpened")
+                PasswordEyeOpened(v-if='password_is_shown')
                 PasswordEyeClosed(v-else)
-        button.loginPage__btn Войти
+        button.loginPage__btn(type='submit') Войти
     p.loginPage__copyright &#169; 2020 ООО «ЗОНСМАРТ». Все права защищены. 
 </template>
 
@@ -17,6 +17,7 @@
 import PasswordEyeOpened from './image-components/PasswordEyeOpened'
 import PasswordEyeClosed from './image-components/PasswordEyeClosed'
 import ZoneSmartLogo from './image-components/ZoneSmartLogo'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'loginPage',
@@ -27,26 +28,33 @@ export default {
     },
     data() {
         return {
-            PasswordVisibility: 'password',
-            EyePicIsOpened: false
+            password_visibility: 'password',
+            password_is_shown: false,
+            form: {
+                email: '',
+                password: ''
+            }
 
         }
     },
     methods: {
+        ...mapActions({
+            signIn: 'auth/signIn'
+        }),
         changePasswordVisibility() {
-            this.EyePicIsOpened = !this.EyePicIsOpened
+            this.password_is_shown = !this.password_is_shown
+            this.password_visibility = this.password_visibility === 'password' ? 'text' : 'password'
+        },
 
-            if(this.PasswordVisibility === 'password') {
-                this.PasswordVisibility = 'text'
-            } else {
-                this.PasswordVisibility = 'password'
-            }
+        submit() {
+            this.signIn(this.form)
         }
     }
 }
 </script>
 
 <style>
+
 input {
     border: 0;
     font-family: Roboto;

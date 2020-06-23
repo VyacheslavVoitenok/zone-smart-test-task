@@ -1,16 +1,15 @@
 <template>
 	<div id="app">
-		<loginPage />
+		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-import loginPage from './components/loginPage'
+// import loginPage from './components/loginPage'
 
 export default {
 	name: 'App',
 	components: {
-		loginPage
 	}
 }
 </script>
