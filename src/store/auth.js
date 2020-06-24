@@ -7,10 +7,7 @@ export default {
         isAuthorized: false
     },
     mutations: {
-        // SET_TOKEN(state, { refresh_token, access_token }) {
-        //     state.access_token = access_token
-        //     state.refresh_token = refresh_token
-        // }
+
     },
     actions: {
         async signIn(_, credentials) {
