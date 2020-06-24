@@ -1,21 +1,29 @@
 <template lang='pug'>
-    .table
-        .table__header-wrapper
-            h1.table__header Таблица заказов
-            .table__buttons
-                button.table__button.table__button_send Отправления
-                button.table__button.table__button_export Экспортировать
-        .table__filters
-            button.table__button.table__button-filter Фильтр
-            .table__input-wraper
-                input.table__search-input(type='text' placeholder='Поиск')
-                Magnifier
-        TableResultsHeaders
-        TableResults
+    .table-wrapper
+        .table
+            .table__header-wrapper
+                h1.table__header Таблица заказов
+                .table__buttons
+                    button.table__button.table__button_send Отправления
+                    button.table__button.table__button_export Экспортировать
+            .table__filters
+                button.table__button.table__button-filter Фильтр
+                .table__input-wraper
+                    input.table__search-input(type='text' placeholder='Поиск')
+                    Magnifier
+            TableResultsHeaders
+            .table__results
+                TableResults
+            .table__pages
+                LeftArrow.table__pages-btn
+                p.table__pages-counter 56—100 из 142
+                RightArrow.table__pages-btn
 </template>
 
 <script>
 import Magnifier from './image-components/Magnifier'
+import LeftArrow from './image-components/LeftArrow'
+import RightArrow from './image-components/RightArrow'
 import TableResultsHeaders from './table-components/TableResultsHeaders'
 import TableResults from './table-components/TableResults'
 
@@ -24,17 +32,23 @@ export default {
     components: {
         Magnifier,
         TableResultsHeaders,
-        TableResults
+        TableResults,
+        LeftArrow,
+        RightArrow
     }
 }
 </script>
 
 <style lang='sass'>
+.table-wrapper
+    width: 100%
+    height: 100vh
+
 .table
     width: 100vw
     padding: 30px 30px 87px 30px
     box-sizing: border-box
-    background: #E5E5E5
+    background: #F6F9FC
 
 .table__header
     margin: 0
@@ -91,4 +105,25 @@ export default {
 .table__search-input
     width: 97%
 
+.table__results
+    margin-top: 10px
+    padding: 0px 20px
+    background: #FFFFFF
+    border-radius: 4px
+
+.table__pages
+    display: flex
+    align-items: center
+    justify-content: flex-end
+
+.table__pages-counter
+    margin: 25px 10px
+    font-family: Roboto
+    font-style: normal
+    font-size: 14px
+    color: #152739
+    opacity: 0.4
+
+.table__pages-btn
+    cursor: pointer
 </style>

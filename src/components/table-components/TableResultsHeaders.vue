@@ -37,6 +37,7 @@ export default {
 .table-results-headers__input
     width: 24px
     height: 24px
+    margin-left: 25px
     border: 1px solid #C5C7CD
     box-sizing: border-box
     border-radius: 3px
@@ -54,7 +55,7 @@ export default {
     &:nth-child(2)
         margin-left: 70px
     &:nth-child(3)
-        margin-left: 170px       
+        margin-left: 120px       
     &:nth-child(4)
         margin-left: 50px
     &:nth-child(5)
@@ -66,11 +67,11 @@ export default {
     &:nth-child(8)
         margin-left: 140px
     &:nth-child(9)
-        margin-left: 100px
+        margin-left: 105px
     &:nth-child(10)
-        margin-left: 70px
+        margin-left: 75px
     &:nth-child(11)
-        margin-left: 70px
+        margin-left: 75px
     &:last-of-type
         margin-right: 0px
 </style>
