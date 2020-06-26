@@ -5,10 +5,23 @@
 </template>
 
 <script>
+import axios from 'axios'
 
 export default {
 	name: 'App',
 	components: {
+	},
+	//проверка токена на валидность
+	created: function() {
+		axios.interceptors.response.use(undefined, function(error) {
+			return new Promise(function (resolve, reject) {
+				if(error.status == 401) {
+					this.$store.dispatch('refresh_access_token')
+					return resolve()
+				}
+				reject(error);
+			})
+		})
 	}
 }
 </script>
