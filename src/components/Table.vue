@@ -13,7 +13,11 @@
                     Magnifier
             TableResultsHeaders
             .table__results
-                TableResults
+                TableResults(
+                    v-for='product in this.$store.state.products'
+                    :key='product.id'
+                    :product_data='product'
+                )
             .table__pages
                 LeftArrow.table__pages-btn
                 p.table__pages-counter 56—100 из 142
@@ -27,6 +31,8 @@ import RightArrow from './image-components/RightArrow'
 import TableResultsHeaders from './table-components/TableResultsHeaders'
 import TableResults from './table-components/TableResults'
 
+import { mapActions } from 'vuex';
+
 export default {
     name: 'Table',
     components: {
@@ -35,6 +41,14 @@ export default {
         TableResults,
         LeftArrow,
         RightArrow
+    },
+    methods: {
+        ...mapActions([
+            'getProductData'
+        ])
+    },
+    mounted() {
+        this.getProductData()
     }
 }
 </script>

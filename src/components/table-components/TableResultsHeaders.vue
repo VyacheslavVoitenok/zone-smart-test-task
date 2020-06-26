@@ -37,7 +37,7 @@ export default {
 .table-results-headers__input
     width: 24px
     height: 24px
-    margin-left: 25px
+    margin-left: 0px
     border: 1px solid #C5C7CD
     box-sizing: border-box
     border-radius: 3px

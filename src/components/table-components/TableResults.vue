@@ -3,25 +3,26 @@
         .table-results
             input.table-results__input(type='checkbox')
             .table-results-wrapper
-                p.table-results__item 1034
+                p.table-results__item {{product_data.order_id}}
                 .table-results__item-wrapper
-                    Plus 
-                    p.table-results__item 2 товара
-                p.table-results__item 01.11.2020
-                p.table-results__item В ожиданнии оплаты
+                    .plus-wrapper(@click="rotatePlus" :style="`transform: rotate(${rotation}deg);`")
+                        Plus
+                    p.table-results__item {{product_data.items.length}} товар
+                p.table-results__item {{dateParser}}
+                p.table-results__item {{getShipmentStatus}}
                 .table-results__check-mark.purchased-mark
-                    GreenCheckMark(v-if='isPurchased')
+                    GreenCheckMark(v-if='product_data.is_paid')
                 .table-results__check-mark.sent-mark
-                    GreenCheckMark(v-if='isSent')
+                    GreenCheckMark(v-if='product_data.is_shipped')
                 .table-results__check-mark.delivered-mark
-                    GreenCheckMark(v-if='isDelivered')
+                    GreenCheckMark(v-if='false')
                 .table-results__sales-label
                     p.table-results__sales-text ebay
-                p.table-results__item Theresa Cooper
+                p.table-results__item {{product_data.buyer}}
                 p.table-results__item Почта России
-                p.table-results__item $10
+                p.table-results__item ${{calculateTotalCost}}
 
-        .table-results__details(v-if='true')
+        .table-results__details(v-if='false')
             .table-results__details-headers
                 p.table-results__header Название/SKU
                 p.table-results__header Заказанное количество
@@ -29,7 +30,6 @@
                 p.table-results__header Цена
                 p.table-results__header Стоимость
             .table-results__items-wrapper
-                ItemDetails
                 ItemDetails
 </template>
 
@@ -45,11 +45,49 @@ export default {
         GreenCheckMark,
         ItemDetails
     },
+    props: {
+        product_data: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
+    },
+    methods: {
+        rotatePlus() {
+            this.rotation += 45
+        }
+    },
+    computed: {
+        dateParser() {
+            return this.dateOfCreation.slice(0, 10).split('-').reverse().join('.')
+        },
+
+        getShipmentStatus() {
+            if(this.shipmentStatus == 'ready_to_ship') {
+                return 'Готово к отправке'   
+            }
+            if(this.shipmentStatus == 'completed') {
+                return 'Завершено' 
+            }
+            return this.shipmentStatus
+        },
+        calculateTotalCost() {
+            let final_price = this.price - this.tax - this.shipment_cost
+            if(Number.isInteger(final_price)) {
+                return final_price
+            }
+            return final_price.toFixed(2)
+        }
+    },
     data() {
         return {
-            isPurchased: false,
-            isSent: false,
-            isDelivered: false
+            dateOfCreation: this.product_data.create_date,
+            shipmentStatus: this.product_data.status,
+            price: this.product_data.total_price,
+            tax: this.product_data.total_tax_cost,
+            shipment_cost: this.product_data.total_shipping_cost,
+            rotation: 0,
         }
     }
 }

@@ -2,8 +2,8 @@
     .item-details
         img.item-details__image(src='' alt='картинка заказа')
         .item-details__description
-            h4.item-details__text.item-details__text_bold Какое-то название
-            p.item-details__text.item-details__text_gray mac_pro16_10
+            h4.item-details__text.item-details__text_bold {{product_details.title}}
+            p.item-details__text.item-details__text_gray {{product_details.sku}}
         p.item-details__text.item-details__amount 1
         p.item-details__text.item-details__amount-sent 1
         p.item-details__text.item-details__price $10
@@ -12,7 +12,15 @@
 
 <script>
 export default {
-    name: 'ItemDetails'
+    name: 'ItemDetails',
+    props: {
+        product_details: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
+    }
 }
 </script>
 
