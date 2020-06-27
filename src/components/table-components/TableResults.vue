@@ -22,7 +22,7 @@
                 p.table-results__item Почта России
                 p.table-results__item ${{calculateTotalCost}}
 
-        .table-results__details(v-if='false')
+        .table-results__details(v-if='show_results_details')
             .table-results__details-headers
                 p.table-results__header Название/SKU
                 p.table-results__header Заказанное количество
@@ -30,7 +30,11 @@
                 p.table-results__header Цена
                 p.table-results__header Стоимость
             .table-results__items-wrapper
-                ItemDetails
+                ItemDetails(
+                    v-for='item in product_data.items'
+                    :key='product_data.items.id'
+                    :product_details='product_data'
+                )
 </template>
 
 <script>
@@ -56,6 +60,8 @@ export default {
     methods: {
         rotatePlus() {
             this.rotation += 45
+            this.show_results_details = !this.show_results_details
+            console.log(this.product_data)
         }
     },
     computed: {
@@ -88,6 +94,7 @@ export default {
             tax: this.product_data.total_tax_cost,
             shipment_cost: this.product_data.total_shipping_cost,
             rotation: 0,
+            show_results_details: false
         }
     }
 }

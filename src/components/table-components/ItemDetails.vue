@@ -1,18 +1,23 @@
 <template lang='pug'>
     .item-details
-        img.item-details__image(src='' alt='картинка заказа')
+        OrderPicture.item-details__image
         .item-details__description
-            h4.item-details__text.item-details__text_bold {{product_details.title}}
-            p.item-details__text.item-details__text_gray {{product_details.sku}}
-        p.item-details__text.item-details__amount 1
+            h4.item-details__text.item-details__text_bold {{product_details.items[0].title}}
+            p.item-details__text.item-details__text_gray {{product_details.items[0].sku}}
+        p.item-details__text.item-details__amount {{product_details.items[0].quantity}}
         p.item-details__text.item-details__amount-sent 1
-        p.item-details__text.item-details__price $10
+        p.item-details__text.item-details__price ${{product_details.items[0].price}}
         p.item-details__text.item-details__worth $10
 </template>
 
 <script>
+import OrderPicture from '../image-components/OrderPicture'
+
 export default {
     name: 'ItemDetails',
+    components: {
+        OrderPicture
+    },
     props: {
         product_details: {
             type: Object,

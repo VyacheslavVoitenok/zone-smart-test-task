@@ -19,9 +19,9 @@
                     :product_data='product'
                 )
             .table__pages
-                LeftArrow.table__pages-btn
-                p.table__pages-counter 56—100 из 142
-                RightArrow.table__pages-btn
+                LeftArrow.table__pages-btn(@click.native='pagesDecrement')
+                p.table__pages-counter {{firstElement}} — {{LastElement}} из {{this.$store.state.amount_of_prosucts}}
+                RightArrow.table__pages-btn(@click.native='pagesIncrement')
 </template>
 
 <script>
@@ -45,10 +45,37 @@ export default {
     methods: {
         ...mapActions([
             'getProductData'
-        ])
+        ]),
+
+        pagesIncrement() {
+            this.pages.offset += 10
+            this.pages.limit += 10
+            this.getProductData(this.pages)
+        },
+
+        pagesDecrement() {
+            this.pages.offset -= 10
+            this.pages.limit -= 10
+        }
+    },
+    computed: {
+        firstElement() {
+            return this.pages.offset + 1
+        },
+        LastElement() {
+            return this.pages.offset + 10
+        }
+    },
+    data() {
+        return {
+            pages: {
+                limit: 10,
+                offset: 0
+            }
+        }
     },
     mounted() {
-        this.getProductData()
+        this.getProductData(this.pages)
     }
 }
 </script>

@@ -8,24 +8,26 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		access_token: localStorage.getItem('access_token') || '',
-		products: {}
+		products: {},
+		amount_of_prosucts: null
 	},
 
 	mutations: {
 		SET_PRODUCTS_TO_STATE(state, products) {
-			state.products = products
+			state.products = products.results
+			state.amount_of_prosucts = products.count
 		}
 	},
 
 	actions: {
-		async getProductData({ commit }) {
+		async getProductData({ commit }, { limit, offset }) {
 			try {
-				let response = await axios.get('https://zonesmart.su/api/v1/zonesmart/order/', {
+				let response = await axios.get(`https://zonesmart.su/api/v1/zonesmart/order/?limit=${limit}&offset=${offset}`, {
 					headers: {
 						"Authorization": `JWT ${this.state.access_token}`
 					}
 				})
-				commit('SET_PRODUCTS_TO_STATE', response.data.results)
+				commit('SET_PRODUCTS_TO_STATE', response.data)
 				
 			} catch (error) {
 				console.log({getProductsError: error})

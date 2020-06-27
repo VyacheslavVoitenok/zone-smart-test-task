@@ -15,7 +15,7 @@ export default {
 	created: function() {
 		axios.interceptors.response.use(undefined, function(error) {
 			return new Promise(function (resolve, reject) {
-				if(error.status == 401) {
+				if(error) {
 					this.$store.dispatch('refresh_access_token')
 					return resolve()
 				}
