@@ -21,6 +21,7 @@ export default new Vuex.Store({
 
 	actions: {
 		async getProductData({ commit }, { limit, offset }) {
+			console.log(limit, offset)
 			try {
 				let response = await axios.get(`https://zonesmart.su/api/v1/zonesmart/order/?limit=${limit}&offset=${offset}`, {
 					headers: {

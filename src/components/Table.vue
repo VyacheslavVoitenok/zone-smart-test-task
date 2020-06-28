@@ -20,7 +20,7 @@
                 )
             .table__pages
                 LeftArrow.table__pages-btn(@click.native='pagesDecrement')
-                p.table__pages-counter {{firstElement}} — {{LastElement}} из {{this.$store.state.amount_of_prosucts}}
+                p.table__pages-counter {{firstElement}} — {{LastElement > 151 ? this.$store.state.amount_of_prosucts : LastElement}} из {{this.$store.state.amount_of_prosucts}}
                 RightArrow.table__pages-btn(@click.native='pagesIncrement')
 </template>
 
@@ -48,14 +48,21 @@ export default {
         ]),
 
         pagesIncrement() {
-            this.pages.offset += 10
-            this.pages.limit += 10
-            this.getProductData(this.pages)
+            if(this.$store.state.amount_of_prosucts - this.LastElement < 10) {
+                this.pages.offset += 10
+                return this.getProductData({limit: 1, offset: this.LastElement-10})
+            }
+            if(this.LastElement + 10 <= this.$store.state.amount_of_prosucts) {
+                this.pages.offset += 10
+                this.getProductData({limit: 10, offset: this.pages.offset})
+            }
         },
 
         pagesDecrement() {
-            this.pages.offset -= 10
-            this.pages.limit -= 10
+            if(this.pages.offset >= 1) {
+                this.pages.offset -= 10
+                this.getProductData({limit: 10, offset: this.pages.offset})
+            }
         }
     },
     computed: {
@@ -70,7 +77,8 @@ export default {
         return {
             pages: {
                 limit: 10,
-                offset: 0
+                offset: 0,
+                amountOfProducts: this.$store.state.amount_of_prosucts
             }
         }
     },
