@@ -11,12 +11,13 @@
                 .table__input-wraper
                     input.table__search-input(type='text' placeholder='Поиск')
                     Magnifier
-            TableResultsHeaders
+            TableResultsHeaders(:header_is_shown='noItemIsChecked')
             .table__results
                 TableResults(
                     v-for='product in this.$store.state.products'
                     :key='product.id'
                     :product_data='product'
+                    @saveItemId='saveItemId'
                 )
             .table__pages
                 LeftArrow.table__pages-btn(@click.native='pagesDecrement')
@@ -31,7 +32,7 @@ import RightArrow from './image-components/RightArrow'
 import TableResultsHeaders from './table-components/TableResultsHeaders'
 import TableResults from './table-components/TableResults'
 
-import { mapActions } from 'vuex';
+import { mapActions } from 'vuex'
 
 export default {
     name: 'Table',
@@ -44,7 +45,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            'getProductData'
+            'getProductData',
+            'saveCheckedIds'
         ]),
 
         pagesIncrement() {
@@ -63,6 +65,9 @@ export default {
                 this.pages.offset -= 10
                 this.getProductData({limit: 10, offset: this.pages.offset})
             }
+        },
+        saveItemId(data) {
+            this.saveCheckedIds(data)
         }
     },
     computed: {
@@ -71,15 +76,16 @@ export default {
         },
         LastElement() {
             return this.pages.offset + 10
-        }
+        },
+        
     },
     data() {
         return {
             pages: {
                 limit: 10,
-                offset: 0,
-                amountOfProducts: this.$store.state.amount_of_prosucts
-            }
+                offset: 0
+            },
+            noItemIsChecked: !!this.$store.state.checkedItemsIds
         }
     },
     mounted() {
@@ -140,7 +146,7 @@ export default {
 
 .table__button-filter
     height: 52px
-    background: #132739;
+    background: #132739
     margin-right: 29px
 
 .table__input-wraper

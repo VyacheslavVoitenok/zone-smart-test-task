@@ -1,7 +1,7 @@
 <template lang='pug'>
     .results-wrapper
         .table-results
-            input.table-results__input(type='checkbox')
+            input.table-results__input(type='checkbox' @change='emitCheck(product_data.order_id)')
             .table-results-wrapper
                 p.table-results__item {{product_data.order_id}}
                 .table-results__item-wrapper
@@ -61,7 +61,12 @@ export default {
         rotatePlus() {
             this.rotation += 45
             this.show_results_details = !this.show_results_details
-            console.log(this.product_data)
+        },
+        emitCheck(id) {
+            if(event.target.checked) {
+                console.log('EMITTED!')
+                this.$emit('saveItemId', id)
+            }
         }
     },
     computed: {

@@ -19,7 +19,7 @@ export default {
 					this.$store.dispatch('refresh_access_token')
 					return resolve()
 				}
-				reject(error);
+				reject(error)
 			})
 		})
 	}

@@ -1,7 +1,7 @@
 <template lang='pug'>
     .table-results-headers
         input.table-results-headers__input(type='checkbox')
-        .table-results-headers-wrapper
+        .table-results-headers-wrapper(v-if='header_is_shown')
             p.table-results-headers__header ID
             p.table-results-headers__header Товары
             p.table-results-headers__header Дата заказа
@@ -13,11 +13,21 @@
             p.table-results-headers__header Покупатель
             p.table-results-headers__header Метод отправки
             p.table-results-headers__header Стоимость
+        .table-results__invoice(v-else)
+            button.table-results-invoice Распечатать инвойс
 </template>
 
 <script>
 export default {
-    name: 'TableResultsHeaders'
+    name: 'TableResultsHeaders',
+    props: {
+        header_is_shown: {
+            type: Boolean,
+            default() {
+                return true
+            }
+        }
+    }
 }
 </script>
 
@@ -74,4 +84,18 @@ export default {
         margin-left: 75px
     &:last-of-type
         margin-right: 0px
+
+.table-results-invoice
+    margin-left: 22px
+    font-family: Roboto
+    font-weight: bold
+    font-size: 14px
+    color: #3CC8AE
+    background: #FFFFFF
+    outline: none
+    border: none
+    cursor: pointer
+
+.table-results-invoice:hover
+    text-decoration: underline
 </style>
